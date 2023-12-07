@@ -1,22 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import NavigationView from "./NavigationView/NavigationView";
 import RoutsContext from "./NavigationView/Routs/RoutsContext";
 import {BrowserRouter as Router} from "react-router-dom";
+import Authorization from "./ Authorization/Authorization";
 
 function App() {
-    return (
-        <>
-            <Router>
-                <div className="Containter">
-                    <NavigationView></NavigationView>
-                    <div className="content">
-                        <RoutsContext></RoutsContext>
-                    </div>
-                </div>
-            </Router>
-        </>
-    );
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
+        return (
+            <>
+                <Router>
+                    {loggedIn ? (
+                        <div className="Containter">
+                            <div>
+                                <NavigationView />
+                            </div>
+                            <div className="content">
+                                <RoutsContext />
+                            </div>
+                        </div>
+                    ) : (
+                        <Authorization onLogin={() => setLoggedIn(true)} />
+                    )}
+                </Router>
+            </>
+        );
 }
 
 export default App;
