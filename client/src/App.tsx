@@ -6,7 +6,7 @@ import {BrowserRouter as Router} from "react-router-dom";
 import Authorization from "./ Authorization/Authorization";
 
 function App() {
-    const [loggedIn, setLoggedIn] = useState<boolean>(false);
+    const [loggedIn, setLoggedIn] = useState<boolean>(true);
         return (
             <>
                 <Router>

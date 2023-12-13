@@ -9,6 +9,7 @@ html, body {
 }
 .content {
   flex:1;
+  margin: 20px;
   height: 100%;
 }
 
