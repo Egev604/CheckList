@@ -4,9 +4,14 @@ import NavigationView from "./NavigationView/NavigationView";
 import RoutsContext from "./NavigationView/Routs/RoutsContext";
 import {BrowserRouter as Router} from "react-router-dom";
 import Authorization from "./ Authorization/Authorization";
+import Cookies from "js-cookie";
 
 function App() {
-    const [loggedIn, setLoggedIn] = useState<boolean>(true);
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
+    const authToken = Cookies.get('authToken');
+    if (authToken) {
+        setLoggedIn(true);
+    }
         return (
             <>
                 <Router>

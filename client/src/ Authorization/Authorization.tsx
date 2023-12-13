@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, TextField} from "@mui/material";
 import './Authorization.css'
 import Request from "./ requestAuthorization/request";
+import Cookies from "js-cookie";
 interface AuthorizationProps {
     onLogin: () => void;
 }
@@ -11,9 +12,10 @@ const Authorization: React.FC<AuthorizationProps> = (props) => {
     const [error, setError] = useState<string | null>(null);
     const handleLogin = () => {
         try {
-            let token = Request(login, password);
-            if (token !== "") {
+            let result = Request(login, password);
+            if (result !== "" && result !== "error") {
                 props.onLogin();
+                Cookies.set('authToken', result, { expires: 1 });
             } else {
                 setError("Ошибка авторизации: неверный логин или пароль");
             }
