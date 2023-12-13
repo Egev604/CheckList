@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id     Int      @id @default(autoincrement())
+  name   String
+  isDone Boolean? @default(false)
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  login    String @unique
+  password String
+}
+
+model Passage {
+  id          Int     @id @default(autoincrement())
+  userId      Int?
+  modelDevice String?
+  versionOs   String?
+  stageId     Int?
+}
+
+model Stage {
+  id    Int    @id @default(autoincrement())
+  name  String
+  Child Int?
+}
