@@ -8,20 +8,17 @@ export declare class PassageService {
         userId: number;
         modelDevice: string;
         versionOs: string;
-        stageId: number;
     }[]>;
     create(passage: PassageDto): Promise<{
         id: number;
         userId: number;
         modelDevice: string;
         versionOs: string;
-        stageId: number;
     }>;
     getOne(id: number): Promise<{
         id: number;
         userId: number;
         modelDevice: string;
         versionOs: string;
-        stageId: number;
     }>;
 }

@@ -30,8 +30,4 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], PassageDto.prototype, "versionOs", void 0);
-__decorate([
-    (0, class_validator_1.IsInt)(),
-    __metadata("design:type", Number)
-], PassageDto.prototype, "stageId", void 0);
 //# sourceMappingURL=passage.dto.js.map

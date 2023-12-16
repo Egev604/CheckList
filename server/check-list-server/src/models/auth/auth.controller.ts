@@ -11,12 +11,11 @@ import {
 
 import { AuthService } from './auth.service';
 import {UserDto} from "../../dto/user.dto";
-import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService, private readonly jwtService: JwtService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('login')
   @UsePipes(new ValidationPipe())
@@ -28,11 +27,28 @@ export class AuthController {
       return;
     }
 
-    const token = this.jwtService.sign(user, {
-      secret: "mySecretKey",
-      expiresIn: '5m'
-    });
+    const token = this.authService.createToken(user);
 
     res.json({accessToken: token});
+  }
+
+  @Post('register')
+  @UsePipes(new ValidationPipe())
+  async register(@Body() user: UserDto, @Res() res: Response) {
+    const isValidatedUser = await this.authService.validateUser(user);
+
+    if (isValidatedUser) {
+      res.status(401).json({message: 'User already exists'});
+      return;
+    }
+
+    const isValidatedPassword = this.authService.isValidatePassword(user.password);
+
+    if (!isValidatedPassword) {
+      res.status(401).json({message: 'The password must consist of 8 characters'});
+      return;
+    }
+
+    return this.authService.create(user);
   }
 }
