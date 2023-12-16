@@ -1,20 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-const Request = (login:string, password:string) => {
-    const [token, setToken] = useState<string>("");
+const Request = async (login: string, password: string) => {
+    const body = {
+        login: login,
+        password: password
+    };
+    try {
+        const apiUrl = 'http://localhost:4000/api/auth/login/';
+        const resp = await axios.post(apiUrl, body, {
+            headers: {
+                'Content-Type': 'application/json',
+            }});
 
-    useEffect(() => {
-        const apiUrl = '';
-        axios.post(apiUrl, {auth: {
-                login: login,
-                password: password
-            }})
-            .then((resp) => {
-                const allPersons = resp.data;
-                setToken(allPersons);
-        });
-    }, [setToken]);
-    return token;
+        const token = resp.data.accessToken;
+        return token;
+    } catch (error) {
+        console.error('Error during login:', error);
+        return "error"
+    }
 };
 
 export default Request;
