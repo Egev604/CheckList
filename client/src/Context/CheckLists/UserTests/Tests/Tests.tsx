@@ -8,11 +8,11 @@ export interface TreeNode {
     passed: boolean;
     children?: TreeNode[];
 }
-const Tests = () => {
+const Tests:React.FC<{ stage: number }> = ({ stage }) => {
     const [testsModel, setTestsModel] = useState<TreeNode[]>([]);
     const axiosData = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/');
+            const response = await axios.get('http://localhost:4000/api/'+stage);
             const result:TreeNode[] = await response.data;
             setTestsModel(result);
         } catch (error) {

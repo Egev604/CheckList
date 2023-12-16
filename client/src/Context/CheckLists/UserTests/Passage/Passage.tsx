@@ -3,6 +3,7 @@ import {ListItemButton} from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import {DataItem} from "../UserTests";
+import Tests from "../Tests/Tests";
 interface PassageProps {
     item: DataItem;
     index: number;
@@ -23,6 +24,7 @@ const Passage: React.FC<PassageProps> = ({item,index}) => {
             <ListItemButton onClick={handleClick}>
                 {(open ? <ExpandLess /> : <ExpandMore />)}
             </ListItemButton>
+            {open && <Tests stage={index} />}
         </>
     );
 };
