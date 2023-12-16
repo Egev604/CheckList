@@ -9,9 +9,11 @@ export class StageController {
     constructor(private readonly stageService: StageService) {
     }
     @Get()
-    async getAll(@Res() res: Response) {
-        const stages = await this.stageService.getAll();
-        res.json({passages: stages});
+    async getAllByPassageId(@Param('passageId') passageId: number,
+                            @Res() res: Response) {
+        const stages = await this.stageService
+            .getAllByPassageId(passageId);
+        res.json({stages: stages});
     }
 
     @Get(':id')

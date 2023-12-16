@@ -30,4 +30,8 @@ __decorate([
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], StageDto.prototype, "child", void 0);
+__decorate([
+    (0, class_validator_1.IsInt)(),
+    __metadata("design:type", Number)
+], StageDto.prototype, "passageId", void 0);
 //# sourceMappingURL=stage.dto.js.map

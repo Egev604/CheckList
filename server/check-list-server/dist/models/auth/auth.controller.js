@@ -16,11 +16,9 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const user_dto_1 = require("../../dto/user.dto");
-const jwt_1 = require("@nestjs/jwt");
 let AuthController = class AuthController {
-    constructor(authService, jwtService) {
+    constructor(authService) {
         this.authService = authService;
-        this.jwtService = jwtService;
     }
     async login(user, res) {
         const isValidatedUser = await this.authService.validateUser(user);
@@ -28,11 +26,21 @@ let AuthController = class AuthController {
             res.status(401).json({ message: 'Invalid credentials' });
             return;
         }
-        const token = this.jwtService.sign(user, {
-            secret: "mySecretKey",
-            expiresIn: '5m'
-        });
+        const token = this.authService.createToken(user);
         res.json({ accessToken: token });
+    }
+    async register(user, res) {
+        const isValidatedUser = await this.authService.validateUser(user);
+        if (isValidatedUser) {
+            res.status(401).json({ message: 'User already exists' });
+            return;
+        }
+        const isValidatedPassword = this.authService.isValidatePassword(user.password);
+        if (!isValidatedPassword) {
+            res.status(401).json({ message: 'The password must consist of 8 characters' });
+            return;
+        }
+        return this.authService.create(user);
     }
 };
 exports.AuthController = AuthController;
@@ -45,8 +53,17 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.UserDto, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.Post)('register'),
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.UserDto, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "register", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [auth_service_1.AuthService, jwt_1.JwtService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

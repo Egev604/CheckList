@@ -17,8 +17,12 @@ let StageService = class StageService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async getAll() {
-        return this.prisma.stage.findMany();
+    async getAllByPassageId(id) {
+        return this.prisma.stage.findMany({
+            where: {
+                id: id
+            }
+        });
     }
     async create(stage) {
         return this.prisma.stage.create({ data: stage });
@@ -43,7 +47,11 @@ let StageService = class StageService {
             where: {
                 id: stage.id
             },
-            data: {}
+            data: {
+                name: stage.name,
+                status: stage.status,
+                child: stage.child,
+            }
         });
     }
 };

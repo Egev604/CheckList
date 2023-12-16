@@ -9,6 +9,4 @@ export class PassageDto {
     modelDevice?: string;
     @IsString()
     versionOs?: string;
-    @IsInt()
-    stageId?: number;
 }

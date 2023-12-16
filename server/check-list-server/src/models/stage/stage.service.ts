@@ -7,8 +7,12 @@ import {PassageDto} from "../../dto/passage.dto";
 export class StageService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async getAll() {
-        return this.prisma.stage.findMany();
+    async getAllByPassageId(id: number) {
+        return this.prisma.stage.findMany({
+            where: {
+                id: id
+            }
+        });
     }
 
     async create(stage: StageDto) {
@@ -38,7 +42,9 @@ export class StageService {
                 id: stage.id
             },
             data: {
-
+                name: stage.name,
+                status: stage.status,
+                child: stage.child,
             }
         })
     }
