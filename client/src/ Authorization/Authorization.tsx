@@ -10,12 +10,14 @@ const Authorization: React.FC<AuthorizationProps> = (props) => {
     const [login,  setLogin] = useState<string>("")
     const [password,  setPassword] = useState<string>("")
     const [error, setError] = useState<string | null>(null);
-    const handleLogin = () => {
+    const handleLogin =  async () => {
         try {
-            let result = Request(login, password);
+            let result = await Request(login, password);
             if (result !== "" && result !== "error") {
                 props.onLogin();
-                Cookies.set('authToken', result, { expires: 1 });
+                const expirationMinutes = 5;
+                const expirationDate = new Date(new Date().getTime() + expirationMinutes * 60 * 1000);
+                Cookies.set('authToken', result, { expires: expirationDate });
             } else {
                 setError("Ошибка авторизации: неверный логин или пароль");
             }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import NavigationView from "./NavigationView/NavigationView";
 import RoutsContext from "./NavigationView/Routs/RoutsContext";
@@ -7,11 +7,14 @@ import Authorization from "./ Authorization/Authorization";
 import Cookies from "js-cookie";
 
 function App() {
+    //Cookies.remove("authToken")
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
-    const authToken = Cookies.get('authToken');
-    if (authToken) {
-        setLoggedIn(true);
-    }
+    useEffect(() => {
+        const authToken = Cookies.get("authToken");
+        if (authToken !== undefined && authToken !== null) {
+            setLoggedIn(true);
+        }
+    }, []);
         return (
             <>
                 <Router>
