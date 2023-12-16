@@ -4,29 +4,34 @@ import ListItem from "./ListItem/ListItem";
 function CheckLists() {
     const exampleArray = [
         {
-            text: 'Item 1',
+            text: 'Элемент 1',
+            passed: false, // Добавьте это свойство для управления состоянием флажка
             children: [
                 {
-                    text: 'Subitem 1.1',
+                    text: 'Подэлемент 1.1',
+                    passed: false,
                     children: [
-                        { text: 'Subsubitem 1.1.1' },
-                        { text: 'Subsubitem 1.1.2' },
+                        { text: 'Подподэлемент 1.1.1', passed: false },
+                        { text: 'Подподэлемент 1.1.2', passed: false },
                     ],
                 },
                 {
-                    text: 'Subitem 1.2',
-                    children: [{ text: 'Subsubitem 1.2.1' }],
+                    text: 'Подэлемент 1.2',
+                    passed: false,
+                    children: [{ text: 'Подподэлемент 1.2.1', passed: false }],
                 },
             ],
         },
         {
-            text: 'Item 2',
+            text: 'Элемент 2',
+            passed: false,
             children: [
                 {
-                    text: 'Subitem 2.1',
-                    children: [{ text: 'Subsubitem 2.1.1' }],
+                    text: 'Подэлемент 2.1',
+                    passed: false,
+                    children: [{ text: 'Подподэлемент 2.1.1', passed: false }],
                 },
-                { text: 'Subitem 2.2' },
+                { text: 'Подэлемент 2.2', passed: false },
             ],
         },
     ];
