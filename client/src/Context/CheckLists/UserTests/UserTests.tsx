@@ -17,7 +17,7 @@ const UserTests = () => {
 
     const axiosData = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/');
+            const response = await axios.get('http://localhost:4000/api/passage/');
             const result:DataItem[] = await response.data;
             setData(result);
         } catch (error) {
