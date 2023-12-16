@@ -4,16 +4,16 @@ import ListItem from "./ListItem/ListItem";
 import axios from "axios";
 import {DataItem} from "../UserTests";
 export interface TreeNode {
-    text: string;
-    passed: boolean;
+    name: string;
+    passed?: string;
     children?: TreeNode[];
 }
-const Tests:React.FC<{ stage: number }> = ({ stage }) => {
+const Tests:React.FC<{ passageId: number }> = ({ passageId }) => {
     const [testsModel, setTestsModel] = useState<TreeNode[]>([]);
     const axiosData = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/'+stage);
-            const result:TreeNode[] = await response.data;
+            const response = await axios.get('http://localhost:4000/api/passage/'+passageId+'/stage');
+            const result:TreeNode[] = await response.data.passages;
             setTestsModel(result);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -25,14 +25,9 @@ const Tests:React.FC<{ stage: number }> = ({ stage }) => {
     return (
         <div>
             <List
-                sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                sx={{ width: '100%', bgcolor: 'background.paper' }}
                 component="nav"
                 aria-labelledby="nested-list-subheader"
-                subheader={
-                    <ListSubheader component="div" id="nested-list-subheader">
-                        Nested List Items
-                    </ListSubheader>
-                }
             >
                 {testsModel.map((item, index) => (
                     <ListItem key={index} item={item} />

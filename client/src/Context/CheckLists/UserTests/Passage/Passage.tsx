@@ -16,15 +16,15 @@ const Passage: React.FC<PassageProps> = ({item,index}) => {
     };
     return (
         <>
-            <h1 style={{ marginRight: '10px' }}>{index+1}</h1>
             <div>
+                <h1>{index+1}</h1>
                 <strong>Model Device:</strong> {item.modelDevice}<br />
                 <strong>Version OS:</strong> {item.versionOs}<br />
             </div>
             <ListItemButton onClick={handleClick}>
                 {(open ? <ExpandLess /> : <ExpandMore />)}
             </ListItemButton>
-            {open && <Tests stage={index} />}
+            {open && <Tests passageId={item.id} />}
         </>
     );
 };

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import {ListItemButton} from "@mui/material";
+import {Button, List, ListItemButton} from "@mui/material";
 import Passage from "./Passage/Passage";
 export interface DataItem {
     id: number;
@@ -18,7 +18,7 @@ const UserTests = () => {
     const axiosData = async () => {
         try {
             const response = await axios.get('http://localhost:4000/api/passage/');
-            const result:DataItem[] = await response.data;
+            const result:DataItem[] = await response.data.passages;
             setData(result);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -29,12 +29,20 @@ const UserTests = () => {
     }, []);
     return (
         <>
-            <h1>Ваши тесты:</h1>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <h1>Ваши тесты:</h1>
+                <Button>Создать</Button>
+            </div>
+
+            <List
+                sx={{ width: '100%', bgcolor: 'background.paper' }}
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+            >
             {data.map((item, index) => (
-                <div key={item.id} style={{ display: 'flex', alignItems: 'center' }}>
-                    <Passage item={item} index={index} />
-                </div>
+                    <Passage key = {item.id} item={item} index={index} />
             ))}
+            </List>
         </>
     );
 };
