@@ -6,5 +6,5 @@ export class StageDto {
     @IsString()
     name: string;
     @IsInt()
-    child?: string;
+    child?: number;
 }

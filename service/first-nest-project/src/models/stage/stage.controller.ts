@@ -1,12 +1,12 @@
 import {Body, Controller, Get, Param, Post, Res, UsePipes, ValidationPipe} from '@nestjs/common';
-import {PassageService} from "./passage.service";
+import {Response} from "express";
 import {PassageDto} from "../../dto/passage.dto";
-import { Response} from 'express';
 
-@Controller('passage')
-export class PassageController {
-    constructor(private readonly passageService: PassageService) {}
+@Controller('stage')
+export class StageController {
 
+    constructor() {
+    }
     @Get()
     async getAll(@Res() res: Response) {
         const passages = await this.passageService.getAll();

@@ -17,7 +17,7 @@ export class AuthService {
     return candidate != null;
   }
 
-  create(user: UserDto) {
+  async create(user: UserDto) {
     return this.prisma.user.create({ data: user });
   }
 }
