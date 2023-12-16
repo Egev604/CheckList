@@ -6,7 +6,7 @@ const Request = (login:string, password:string) => {
     useEffect(() => {
         const apiUrl = '';
         axios.post(apiUrl, {auth: {
-                username: login,
+                login: login,
                 password: password
             }})
             .then((resp) => {
