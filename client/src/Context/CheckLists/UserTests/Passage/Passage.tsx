@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {ListItemButton} from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import {DataItem} from "../UserTests";
 import Tests from "../Tests/Tests";
+import {PassageInterface} from "../UserTests";
 interface PassageProps {
-    item: DataItem;
+    item: PassageInterface;
     index: number;
 }
 const Passage: React.FC<PassageProps> = ({item,index}) => {
