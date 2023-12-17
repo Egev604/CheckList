@@ -10,12 +10,12 @@ function App() {
     //Cookies.remove("authToken")
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
     useEffect(() => {
-        const authToken = Cookies.get("authToken");
-        if (authToken !== undefined && authToken !== null) {
-            setLoggedIn(true);
-        }
-    }, []);
-        return (
+            const authToken = Cookies.get("authToken");
+            if (authToken !== undefined && authToken !== null) {
+                setLoggedIn(true);
+            }
+        }, []);
+    return (
             <>
                 <Router>
                     {loggedIn ? (
