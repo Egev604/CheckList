@@ -17,10 +17,6 @@ exports.PassageDto = PassageDto;
 __decorate([
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
-], PassageDto.prototype, "id", void 0);
-__decorate([
-    (0, class_validator_1.IsInt)(),
-    __metadata("design:type", Number)
 ], PassageDto.prototype, "userId", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),

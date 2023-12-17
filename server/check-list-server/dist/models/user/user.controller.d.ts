@@ -8,6 +8,11 @@ export declare class UserController {
         login: string;
         password: string;
     }[]>;
+    getOne(userId: number): Promise<{
+        id: number;
+        login: string;
+        password: string;
+    }>;
     create(user: UserDto): Promise<{
         id: number;
         login: string;

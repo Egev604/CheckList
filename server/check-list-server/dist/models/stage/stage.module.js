@@ -11,13 +11,15 @@ const common_1 = require("@nestjs/common");
 const stage_controller_1 = require("./stage.controller");
 const stage_service_1 = require("./stage.service");
 const prisma_service_1 = require("../../prisma.service");
+const passage_service_1 = require("../passage/passage.service");
+const user_service_1 = require("../user/user.service");
 let StageModule = class StageModule {
 };
 exports.StageModule = StageModule;
 exports.StageModule = StageModule = __decorate([
     (0, common_1.Module)({
         controllers: [stage_controller_1.StageController],
-        providers: [stage_service_1.StageService, prisma_service_1.PrismaService]
+        providers: [stage_service_1.StageService, prisma_service_1.PrismaService, user_service_1.UserService, passage_service_1.PassageService]
     })
 ], StageModule);
 //# sourceMappingURL=stage.module.js.map

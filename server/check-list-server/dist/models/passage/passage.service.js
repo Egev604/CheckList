@@ -12,27 +12,60 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PassageService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../prisma.service");
+const user_service_1 = require("../user/user.service");
 let PassageService = class PassageService {
-    constructor(prisma) {
+    constructor(prisma, userService) {
         this.prisma = prisma;
+        this.userService = userService;
     }
-    async getAll() {
-        return this.prisma.passage.findMany();
+    async getAllByUserId(userId) {
+        const data = {
+            passages: null,
+            error: ''
+        };
+        const user = await this.userService.getOne(userId);
+        if (!user) {
+            data.error = 'User does not exist';
+        }
+        const passages = await this.prisma.passage.findMany({
+            where: {
+                userId: +userId
+            }
+        });
+        if (!passages) {
+            data.error = 'Passages does not exist on current user';
+        }
+        data.passages = passages;
+        return data;
     }
     async create(passage) {
         return this.prisma.passage.create({ data: passage });
     }
-    async getOne(id) {
-        return this.prisma.passage.findFirst({
+    async getOneByUserId(userId, id) {
+        const data = {
+            passage: null,
+            error: ''
+        };
+        const user = await this.userService.getOne(userId);
+        if (!user) {
+            data.error = 'User does not exist';
+        }
+        const passage = await this.prisma.passage.findUnique({
             where: {
-                id: id
+                id: +id,
+                userId: +userId
             }
         });
+        if (!passage) {
+            data.error = 'Passage does not exist on current user';
+        }
+        data.passage = passage;
+        return data;
     }
 };
 exports.PassageService = PassageService;
 exports.PassageService = PassageService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService, user_service_1.UserService])
 ], PassageService);
 //# sourceMappingURL=passage.service.js.map

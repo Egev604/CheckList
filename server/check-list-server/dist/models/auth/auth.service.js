@@ -20,12 +20,11 @@ let AuthService = class AuthService {
         this.SECRET_KEY = 'HACK';
     }
     async validateUser(user) {
-        const candidate = await this.prisma.user.findUnique({
+        return this.prisma.user.findUnique({
             where: {
                 login: user.login,
             },
         });
-        return candidate != null;
     }
     isValidatePassword(password) {
         return password.length >= 8;

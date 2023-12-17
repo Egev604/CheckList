@@ -20,24 +20,24 @@ export class AuthController {
   @Post('login')
   @UsePipes(new ValidationPipe())
   async login(@Body() user: UserDto, @Res() res: Response) {
-    const isValidatedUser = await this.authService.validateUser(user);
+    const validatedUser = await this.authService.validateUser(user);
 
-    if (!isValidatedUser) {
+    if (!validatedUser) {
       res.status(401).json({ message: 'Invalid credentials' });
       return;
     }
 
     const token = this.authService.createToken(user);
 
-    res.json({accessToken: token});
+    res.json({accessToken: token, user: validatedUser});
   }
 
   @Post('register')
   @UsePipes(new ValidationPipe())
   async register(@Body() user: UserDto, @Res() res: Response) {
-    const isValidatedUser = await this.authService.validateUser(user);
+    const validatedUser = await this.authService.validateUser(user);
 
-    if (isValidatedUser) {
+    if (validatedUser) {
       res.status(401).json({message: 'User already exists'});
       return;
     }
@@ -49,6 +49,8 @@ export class AuthController {
       return;
     }
 
-    return this.authService.create(user);
+    const newUser = this.authService.create(user);
+
+    res.json({user: newUser});
   }
 }

@@ -12,40 +12,80 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StageService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../prisma.service");
-;
+const user_service_1 = require("../user/user.service");
+const passage_service_1 = require("../passage/passage.service");
 let StageService = class StageService {
-    constructor(prisma) {
+    constructor(prisma, userService, passageService) {
         this.prisma = prisma;
+        this.userService = userService;
+        this.passageService = passageService;
     }
-    async getAllByPassageId(id) {
-        return this.prisma.stage.findMany({
+    async getAllByPassageIdAndUserId(userId, passageId) {
+        const data = {
+            stages: null,
+            error: ''
+        };
+        const user = await this.userService.getOne(userId);
+        if (!user) {
+            data.error = 'User does not exist';
+        }
+        const passage = await this.passageService
+            .getOneByUserId(userId, passageId);
+        if (!passage) {
+            data.error = 'Passage does not exist on current user';
+        }
+        const stages = await this.prisma.stage.findMany({
             where: {
-                id: id
+                passageId: +passageId
             }
         });
+        if (!stages) {
+            data.error = 'Stages does not exist on current passage and current user';
+        }
+        data.stages = stages;
+        return data;
     }
     async create(stage) {
         return this.prisma.stage.create({ data: stage });
     }
-    async getOne(id) {
-        return this.prisma.stage.findFirst({
+    async getOneByPassageIdAndUserId(userId, passageId, id) {
+        const data = {
+            stage: null,
+            error: ''
+        };
+        const user = await this.userService.getOne(userId);
+        if (!user) {
+            data.error = 'User does not exist';
+        }
+        const passage = await this.passageService
+            .getOneByUserId(userId, passageId);
+        if (!passage) {
+            data.error = 'Passage does not exist on current user';
+        }
+        const stage = await this.prisma.stage.findUnique({
             where: {
-                id: id
+                id: +id,
+                passageId: +passageId
             }
         });
+        if (!stage) {
+            data.error = 'Stage does not exist on current passage and current user';
+        }
+        data.stage = stage;
+        return data;
     }
-    async update(stage) {
+    async update(id, stage) {
         const existStage = await this.prisma.stage
             .findUnique({
             where: {
-                id: stage.id
+                id: +id
             }
         });
         if (!existStage)
             return;
         return this.prisma.stage.update({
             where: {
-                id: stage.id
+                id: +id
             },
             data: {
                 name: stage.name,
@@ -58,6 +98,7 @@ let StageService = class StageService {
 exports.StageService = StageService;
 exports.StageService = StageService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService, user_service_1.UserService,
+        passage_service_1.PassageService])
 ], StageService);
 //# sourceMappingURL=stage.service.js.map

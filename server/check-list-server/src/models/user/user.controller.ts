@@ -21,6 +21,11 @@ export class UserController {
     return this.userService.getAll();
   }
 
+  @Get(':id')
+  async getOne(@Param('id') userId: number) {
+    return this.userService.getOne(userId);
+  }
+
   @Post('create')
   @UsePipes(new ValidationPipe())
   async create(@Body() user: UserDto) {

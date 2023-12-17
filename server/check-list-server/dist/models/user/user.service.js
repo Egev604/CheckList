@@ -19,6 +19,13 @@ let UserService = class UserService {
     async getAll() {
         return this.prisma.user.findMany();
     }
+    async getOne(userId) {
+        return this.prisma.user.findUnique({
+            where: {
+                id: +userId
+            }
+        });
+    }
     async create(user) {
         return this.prisma.user.create({ data: user });
     }
@@ -32,7 +39,7 @@ let UserService = class UserService {
             return null;
         return this.prisma.user.update({
             where: {
-                id: user.id,
+                id: +user.id,
             },
             data: {
                 login: user.login,
