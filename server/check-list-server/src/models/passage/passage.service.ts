@@ -7,17 +7,22 @@ import {PassageDto} from "../../dto/passage.dto";
 export class PassageService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async getAll() {
-        return this.prisma.passage.findMany();
+    async getAllByUserId(userId: number) {
+        return this.prisma.passage.findMany({
+            where: {
+                userId: userId
+            }
+        });
     }
 
     async create(passage: PassageDto) {
         return this.prisma.passage.create({data: passage});
     }
 
-    async getOne(id: number) {
-        return this.prisma.passage.findFirst({
+    async getOneByUserId(userId: number, id: number) {
+        return this.prisma.passage.findUnique({
             where: {
+                userId: userId,
                 id: id
             }
         })

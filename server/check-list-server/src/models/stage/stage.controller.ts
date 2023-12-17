@@ -17,15 +17,18 @@ export class StageController {
     }
 
     @Get(':id')
-    async getOne(@Param('id') id: number, @Res() res: Response) {
-        const foundStage = await this.stageService.getOne(id);
+    async getOneByPassageId(@Param('passageId') passageId: number,
+                            @Param('id') id: number, @Res() res: Response) {
+        const foundStage = await this.stageService
+            .getOneByPassageId(passageId, id);
         res.json({stage: foundStage})
     }
 
     @Post('create')
     @UsePipes(new ValidationPipe())
     async create(@Body() stage: StageDto, @Res() res: Response) {
-        const newStage = await this.stageService.create(stage);
+        const newStage = await this.stageService
+            .create(stage);
         res.json({stage: newStage});
     }
 }

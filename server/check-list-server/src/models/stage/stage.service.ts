@@ -7,10 +7,10 @@ import {PassageDto} from "../../dto/passage.dto";
 export class StageService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async getAllByPassageId(id: number) {
+    async getAllByPassageId(passageId: number) {
         return this.prisma.stage.findMany({
             where: {
-                id: id
+                passageId: passageId
             }
         });
     }
@@ -19,9 +19,10 @@ export class StageService {
         return this.prisma.stage.create({data: stage});
     }
 
-    async getOne(id: number) {
-        return this.prisma.stage.findFirst({
+    async getOneByPassageId(passageId: number, id: number) {
+        return this.prisma.stage.findUnique({
             where: {
+                passageId: passageId,
                 id: id
             }
         })

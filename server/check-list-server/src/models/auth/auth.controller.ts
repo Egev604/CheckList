@@ -29,7 +29,7 @@ export class AuthController {
 
     const token = this.authService.createToken(user);
 
-    res.json({accessToken: token});
+    res.json({accessToken: token, user: user});
   }
 
   @Post('register')
