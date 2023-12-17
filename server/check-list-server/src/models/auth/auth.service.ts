@@ -12,6 +12,7 @@ export class AuthService {
     return this.prisma.user.findUnique({
       where: {
         login: user.login,
+        password: user.password,
       },
     });
   }

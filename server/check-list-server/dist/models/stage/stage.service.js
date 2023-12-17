@@ -42,7 +42,7 @@ let StageService = class StageService {
         if (!stages) {
             data.error = 'Stages does not exist on current passage and current user';
         }
-        data.stages = this.sortStages(stages);
+        data.stages = await this.sortStages(stages);
         return data;
     }
     async sortStages(stages) {
