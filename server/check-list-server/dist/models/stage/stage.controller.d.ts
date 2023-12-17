@@ -4,7 +4,7 @@ import { StageDto } from "../../dto/stage.dto";
 export declare class StageController {
     private readonly stageService;
     constructor(stageService: StageService);
-    getAllByPassageId(passageId: number, res: Response): Promise<void>;
-    getOne(id: number, res: Response): Promise<void>;
+    getAllByPassageId(userId: number, passageId: number, res: Response): Promise<void>;
+    getOneByPassageIdAndUserId(userId: number, passageId: number, id: number, res: Response): Promise<void>;
     create(stage: StageDto, res: Response): Promise<void>;
 }

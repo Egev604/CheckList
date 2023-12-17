@@ -21,17 +21,17 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     async login(user, res) {
-        const isValidatedUser = await this.authService.validateUser(user);
-        if (!isValidatedUser) {
+        const validatedUser = await this.authService.validateUser(user);
+        if (!validatedUser) {
             res.status(401).json({ message: 'Invalid credentials' });
             return;
         }
         const token = this.authService.createToken(user);
-        res.json({ accessToken: token });
+        res.json({ accessToken: token, user: validatedUser });
     }
     async register(user, res) {
-        const isValidatedUser = await this.authService.validateUser(user);
-        if (isValidatedUser) {
+        const validatedUser = await this.authService.validateUser(user);
+        if (validatedUser) {
             res.status(401).json({ message: 'User already exists' });
             return;
         }
@@ -40,7 +40,8 @@ let AuthController = class AuthController {
             res.status(401).json({ message: 'The password must consist of 8 characters' });
             return;
         }
-        return this.authService.create(user);
+        const newUser = this.authService.create(user);
+        res.json({ user: newUser });
     }
 };
 exports.AuthController = AuthController;

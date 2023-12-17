@@ -20,35 +20,40 @@ let PassageController = class PassageController {
     constructor(passageService) {
         this.passageService = passageService;
     }
-    async getAll(res) {
-        const passages = await this.passageService.getAll();
+    async getAllByUserId(userId, res) {
+        const passages = await this.passageService
+            .getAllByUserId(userId);
         res.json({ passages: passages });
     }
-    async getOne(id, res) {
-        const foundPassage = await this.passageService.getOne(id);
+    async getOneByUserId(userId, id, res) {
+        const foundPassage = await this.passageService
+            .getOneByUserId(userId, id);
         res.json({ passage: foundPassage });
     }
     async create(passage, res) {
-        const newPassage = await this.passageService.create(passage);
+        const newPassage = await this.passageService
+            .create(passage);
         res.json({ newPassage: newPassage });
     }
 };
 exports.PassageController = PassageController;
 __decorate([
     (0, common_1.Get)(),
-    __param(0, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], PassageController.prototype, "getAll", null);
-__decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('userId')),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
-], PassageController.prototype, "getOne", null);
+], PassageController.prototype, "getAllByUserId", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('userId')),
+    __param(1, (0, common_1.Param)('id')),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number, Object]),
+    __metadata("design:returntype", Promise)
+], PassageController.prototype, "getOneByUserId", null);
 __decorate([
     (0, common_1.Post)('create'),
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
@@ -59,7 +64,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PassageController.prototype, "create", null);
 exports.PassageController = PassageController = __decorate([
-    (0, common_1.Controller)('passage'),
+    (0, common_1.Controller)('users/:userId/passage'),
     __metadata("design:paramtypes", [passage_service_1.PassageService])
 ], PassageController);
 //# sourceMappingURL=passage.controller.js.map

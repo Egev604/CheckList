@@ -3,7 +3,7 @@ import {PassageService} from "./passage.service";
 import {PassageDto} from "../../dto/passage.dto";
 import { Response} from 'express';
 
-@Controller('users/userId/passage')
+@Controller('users/:userId/passage')
 export class PassageController {
     constructor(private readonly passageService: PassageService) {}
 
@@ -15,7 +15,7 @@ export class PassageController {
     }
 
     @Get(':id')
-    async getOne(@Param('userId') userId: number, @Param('id') id: number, @Res() res: Response) {
+    async getOneByUserId(@Param('userId') userId: number, @Param('id') id: number, @Res() res: Response) {
         const foundPassage = await this.passageService
             .getOneByUserId(userId, id);
         res.json({passage: foundPassage})

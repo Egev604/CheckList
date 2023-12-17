@@ -1,15 +1,16 @@
 import { PrismaService } from "../../prisma.service";
 import { StageDto } from "../../dto/stage.dto";
+import { UserService } from "../user/user.service";
+import { PassageService } from "../passage/passage.service";
 export declare class StageService {
     private readonly prisma;
-    constructor(prisma: PrismaService);
-    getAllByPassageId(id: number): Promise<{
-        id: number;
-        name: string;
-        status: string;
-        child: number;
-        passageId: number;
-    }[]>;
+    private readonly userService;
+    private readonly passageService;
+    constructor(prisma: PrismaService, userService: UserService, passageService: PassageService);
+    getAllByPassageIdAndUserId(userId: number, passageId: number): Promise<{
+        stages: any;
+        error: string;
+    }>;
     create(stage: StageDto): Promise<{
         id: number;
         name: string;
@@ -17,14 +18,11 @@ export declare class StageService {
         child: number;
         passageId: number;
     }>;
-    getOne(id: number): Promise<{
-        id: number;
-        name: string;
-        status: string;
-        child: number;
-        passageId: number;
+    getOneByPassageIdAndUserId(userId: number, passageId: number, id: number): Promise<{
+        stage: any;
+        error: string;
     }>;
-    update(stage: StageDto): Promise<{
+    update(id: number, stage: StageDto): Promise<{
         id: number;
         name: string;
         status: string;

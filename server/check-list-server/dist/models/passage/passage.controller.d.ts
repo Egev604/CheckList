@@ -4,7 +4,7 @@ import { Response } from 'express';
 export declare class PassageController {
     private readonly passageService;
     constructor(passageService: PassageService);
-    getAll(res: Response): Promise<void>;
-    getOne(id: number, res: Response): Promise<void>;
+    getAllByUserId(userId: number, res: Response): Promise<void>;
+    getOneByUserId(userId: number, id: number, res: Response): Promise<void>;
     create(passage: PassageDto, res: Response): Promise<void>;
 }

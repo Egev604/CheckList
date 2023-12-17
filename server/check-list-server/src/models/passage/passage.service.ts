@@ -2,17 +2,38 @@ import {Injectable, Res} from '@nestjs/common';
 import {PrismaService} from "../../prisma.service";
 import {Response} from "express";
 import {PassageDto} from "../../dto/passage.dto";
+import {UserService} from "../user/user.service";
 
 @Injectable()
 export class PassageService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService, private readonly userService: UserService) {}
 
     async getAllByUserId(userId: number) {
-        return this.prisma.passage.findMany({
+
+        const data = {
+            passages: null,
+            error: ''
+        };
+
+        const user = await this.userService.getOne(userId);
+
+        if (!user) {
+            data.error = 'User does not exist'
+        }
+
+        const passages = await this.prisma.passage.findMany({
             where: {
-                userId: userId
+                userId: +userId
             }
-        });
+        })
+
+        if (!passages) {
+            data.error = 'Passages does not exist on current user'
+        }
+
+        data.passages = passages;
+
+        return data;
     }
 
     async create(passage: PassageDto) {
@@ -20,11 +41,30 @@ export class PassageService {
     }
 
     async getOneByUserId(userId: number, id: number) {
-        return this.prisma.passage.findUnique({
+        const data = {
+            passage: null,
+            error: ''
+        };
+
+        const user = await this.userService.getOne(userId);
+
+        if (!user) {
+            data.error = 'User does not exist'
+        }
+
+        const passage = await this.prisma.passage.findUnique({
             where: {
-                userId: userId,
-                id: id
+                id: +id,
+                userId: +userId
             }
         })
+
+        if (!passage) {
+            data.error = 'Passage does not exist on current user'
+        }
+
+        data.passage = passage;
+
+        return data;
     }
 }

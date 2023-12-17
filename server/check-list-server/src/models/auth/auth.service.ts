@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import {Injectable} from '@nestjs/common';
+import {PrismaService} from 'src/prisma.service';
 import {UserDto} from "../../dto/user.dto";
 import {JwtService} from "@nestjs/jwt";
 
@@ -9,13 +9,11 @@ export class AuthService {
   private readonly SECRET_KEY = 'HACK';
 
   async validateUser(user: UserDto) {
-    const candidate = await this.prisma.user.findUnique({
+    return this.prisma.user.findUnique({
       where: {
         login: user.login,
       },
     });
-
-    return candidate != null;
   }
 
   isValidatePassword(password: string) {

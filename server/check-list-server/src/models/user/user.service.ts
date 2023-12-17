@@ -10,6 +10,14 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
+  async getOne(userId: number) {
+    return this.prisma.user.findUnique({
+      where: {
+        id: +userId
+      }
+    })
+  }
+
   async create(user: UserDto) {
     return this.prisma.user.create({ data: user });
   }
@@ -25,7 +33,7 @@ export class UserService {
 
     return this.prisma.user.update({
       where: {
-        id: user.id,
+        id: +user.id,
       },
       data: {
         login: user.login,
