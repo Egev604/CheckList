@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Checkbox, Collapse, FormControlLabel, List, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-interface ListItemProps {
+export interface ListItemProps {
     item: {
         name: string
         passed?:string

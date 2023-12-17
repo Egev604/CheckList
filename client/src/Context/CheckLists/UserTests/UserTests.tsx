@@ -12,13 +12,12 @@ export interface PassageInterface {
     versionOs?: string;
 }
 const UserTests = () => {
-
     const [data, setData] = useState<PassageInterface[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const axiosData = async () => {
         try {
             const response = await axios.get('http://localhost:4000/api/users/'+Cookies.get("userId")+'/passage');
-            const result:PassageInterface[] = await response.data;
+            const result:PassageInterface[] = await response.data.data.passages;
             setData(result);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -31,22 +30,20 @@ const UserTests = () => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-    useEffect(() => {
-        axiosData();
-    }, []);
+        useEffect(() => {
+            axiosData();
+            }, [isModalOpen]);
     return (
         <>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <h1>Ваши тесты:</h1>
-            <Button variant="contained" onClick={openModal}>Создать</Button>
+                <h1>Ваши тесты:</h1>
+                <Button variant="contained" onClick={openModal}>Создать</Button>
             </div>
             <ModalComponent isOpen={isModalOpen} closeModal={closeModal}>
                 <CreateNewPassage />
             </ModalComponent>
             {data.map((item, index) => (
-                <div key={item.id} style={{ display: 'flex', alignItems: 'center' }}>
                     <Passage item={item} index={index} />
-                </div>
             ))}
         </>
     );

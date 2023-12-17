@@ -4,24 +4,19 @@ import './CreateNewPassage.css'
 import CreatePassageApi from "./CreatePassageApi";
 import {PassageInterface} from "../UserTests";
 import {AxiosResponse} from "axios";
+import Cookies from "js-cookie";
 export interface PassageItem {
     userId: number;
     modelDevice: string;
     versionOs: string;
 }
-export interface StageItem {
-    text: string;
-    passed: string;
-    children?: StageItem[];
-}
 const CreateNewPassage = () => {
     const [passageItem, setPassageItem] = useState<PassageItem>({
-        userId: 0,
+        userId: Number(Cookies.get("userId")),
         modelDevice: '',
         versionOs: '',
     });
 
-    const [stageList, setStageList] = useState<StageItem[]>([]);
 
     const handleDataItemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -31,13 +26,8 @@ const CreateNewPassage = () => {
 
     const handleAddTreeNode = async () => {
         try {
-            const passage: AxiosResponse<PassageInterface> = await CreatePassageApi(passageItem);
-            const newStage: StageItem = {
-                text: `Stage for Passage ${passage.data.id}`,
-                passed: '',
-                children: [],
-            };
-            setStageList((prevStages) => [...prevStages, newStage]);
+            const passage = await CreatePassageApi(passageItem);
+            console.log(passage)
         } catch (error) {
             console.error('Ошибка при выполнении запроса:', error);
         }
@@ -71,13 +61,6 @@ const CreateNewPassage = () => {
             >
                 Создать
             </Button>
-            <div>
-                {stageList.map((stage, index) => (
-                    <div key={index}>
-                        <TextField label={`Stage ${index + 1}`} value={stage} />
-                    </div>
-                ))}
-            </div>
         </div>
     );
 };
