@@ -8,8 +8,9 @@ export interface ListItemProps {
         passed?:string
         children?: ListItemProps['item'][]
     };
+    level?: number;
 }
-const ListItem: React.FC<ListItemProps> = ({item}) => {
+const ListItem: React.FC<ListItemProps> = ({item, level = 0 }) => {
     const [open, setOpen] = useState(false);
     const [notPassed, setNotPassed] = useState(false);
     const handleClick = () => {
@@ -20,7 +21,9 @@ const ListItem: React.FC<ListItemProps> = ({item}) => {
 
     return (
         <>
-            <ListItemButton onClick={handleClick}>
+            <ListItemButton
+                style={{ paddingLeft: level * 35 }}
+                onClick={handleClick}>
                 <ListItemText primary={item.name} />
                 {isLeafNode && (
                     <>
@@ -48,7 +51,7 @@ const ListItem: React.FC<ListItemProps> = ({item}) => {
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                         {item.children?.map((child, index) => (
-                            <ListItem key={index} item={child} />
+                            <ListItem key={index} item={child} level={level + 1} />
                         ))}
                     </List>
                 </Collapse>

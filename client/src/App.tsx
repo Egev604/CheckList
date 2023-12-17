@@ -7,7 +7,7 @@ import Authorization from "./ Authorization/Authorization";
 import Cookies from "js-cookie";
 
 function App() {
-    //Cookies.remove("authToken")
+    Cookies.remove("authToken")
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
     useEffect(() => {
             const authToken = Cookies.get("authToken");

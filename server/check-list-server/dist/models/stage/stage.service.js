@@ -42,8 +42,36 @@ let StageService = class StageService {
         if (!stages) {
             data.error = 'Stages does not exist on current passage and current user';
         }
-        data.stages = stages;
+        data.stages = await this.sortStages(stages);
         return data;
+    }
+    async sortStages(stages) {
+        const stagesWithoutChildren = await this.prisma.stage.findMany({
+            where: {
+                parentId: null
+            }
+        });
+        const sortedStages = stagesWithoutChildren.map((stageWithoutChildren) => {
+            const childrenStages = stages.filter((stage) => stage.parentId === stageWithoutChildren.id);
+            const sortedChildren = this.sortChildren(childrenStages, stages);
+            return {
+                name: stageWithoutChildren.name,
+                status: stageWithoutChildren.status,
+                children: sortedChildren
+            };
+        });
+        return sortedStages;
+    }
+    sortChildren(children, allStages) {
+        return children.map((childStage) => {
+            const nestedChildren = allStages.filter((nestedChildStage) => nestedChildStage.parentId === childStage.id);
+            const sortedNestedChildren = this.sortChildren(nestedChildren, allStages);
+            return {
+                name: childStage.name,
+                status: childStage.status,
+                children: sortedNestedChildren
+            };
+        });
     }
     async create(stage) {
         return this.prisma.stage.create({ data: stage });
@@ -90,7 +118,7 @@ let StageService = class StageService {
             data: {
                 name: stage.name,
                 status: stage.status,
-                child: stage.child,
+                parentId: stage.parentId,
             }
         });
     }
