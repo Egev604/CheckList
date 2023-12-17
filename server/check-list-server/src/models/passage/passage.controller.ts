@@ -9,16 +9,16 @@ export class PassageController {
 
     @Get()
     async getAllByUserId(@Param('userId') userId: number, @Res() res: Response) {
-        const passages = await this.passageService
+        const data = await this.passageService
             .getAllByUserId(userId);
-        res.json({passages: passages});
+        res.json({data: data});
     }
 
     @Get(':id')
     async getOneByUserId(@Param('userId') userId: number, @Param('id') id: number, @Res() res: Response) {
-        const foundPassage = await this.passageService
+        const data = await this.passageService
             .getOneByUserId(userId, id);
-        res.json({passage: foundPassage})
+        res.json({data: data})
     }
 
     @Post('create')
