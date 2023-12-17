@@ -4,6 +4,7 @@ import {Button} from "@mui/material";
 import Passage from "./Passage/Passage";
 import ModalComponent from "./CreateNewPassage/ModalComponent";
 import CreateNewPassage from "./CreateNewPassage/CreateNewPassage";
+import Cookies from "js-cookie";
 export interface PassageInterface {
     id: number;
     userId?: number;
@@ -16,7 +17,7 @@ const UserTests = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const axiosData = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/passage/');
+            const response = await axios.get('http://localhost:4000/api/users/'+Cookies.get("userId")+'/passage');
             const result:PassageInterface[] = await response.data;
             setData(result);
         } catch (error) {

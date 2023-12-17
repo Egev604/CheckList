@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
 import {Button, TextField} from "@mui/material";
 import './Authorization.css'
-import Request from "./ requestAuthorization/request";
+import Request, {UserProps} from "./ requestAuthorization/request";
 import Cookies from "js-cookie";
 interface AuthorizationProps {
     onLogin: () => void;
+}
+export interface resultResponse {
+    token:string
+    user:UserProps|null
 }
 const Authorization: React.FC<AuthorizationProps> = (props) => {
     const [login,  setLogin] = useState<string>("")
@@ -12,12 +16,13 @@ const Authorization: React.FC<AuthorizationProps> = (props) => {
     const [error, setError] = useState<string | null>(null);
     const handleLogin =  async () => {
         try {
-            let result = await Request(login, password);
-            if (result !== "" && result !== "error") {
+            const {token, user} = await Request(login, password);
+            if (token !== "" && token !== "error") {
                 props.onLogin();
                 const expirationMinutes = 5;
                 const expirationDate = new Date(new Date().getTime() + expirationMinutes * 60 * 1000);
-                Cookies.set('authToken', result, { expires: expirationDate });
+                Cookies.set('authToken', token, { expires: expirationDate });
+                Cookies.set('userId', user?.id+"")
             } else {
                 setError("Ошибка авторизации: неверный логин или пароль");
             }

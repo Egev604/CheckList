@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {List, ListSubheader} from "@mui/material";
 import ListItem from "./ListItem/ListItem";
 import axios from "axios";
+import Cookies from "js-cookie";
 export interface TreeNode {
     name: string;
     passed?: string;
@@ -11,7 +12,7 @@ const Tests:React.FC<{ passageId: number }> = ({ passageId }) => {
     const [testsModel, setTestsModel] = useState<TreeNode[]>([]);
     const axiosData = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/passage/'+passageId+'/stage');
+            const response = await axios.get('http://localhost:4000/api/users/'+Cookies.get("userId")+'/passage/'+passageId+'/stage');
             const result:TreeNode[] = await response.data.passages;
             setTestsModel(result);
         } catch (error) {
