@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-const Request = (login:string, passsword:string) => {
+const Request = (login:string, password:string) => {
     const [token, setToken] = useState<string>("");
 
     useEffect(() => {

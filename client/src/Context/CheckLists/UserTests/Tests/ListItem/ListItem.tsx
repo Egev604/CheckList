@@ -1,36 +1,24 @@
 import React, {useState} from 'react';
-import {Checkbox, Collapse, FormControlLabel, List, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import {Checkbox, Collapse, FormControlLabel, List, ListItemButton,  ListItemText} from "@mui/material";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 interface ListItemProps {
     item: {
         text: string
-        passed:boolean
+        passed:string
         children?: ListItemProps['item'][]
     };
 }
 const ListItem: React.FC<ListItemProps> = ({item}) => {
     const [open, setOpen] = useState(false);
-    const [passed, setPassed] = useState(item.passed || false);
+    const [passed, setPassed] = useState();
     const [notPassed, setNotPassed] = useState(false);
     const handleClick = () => {
         setOpen(!open);
     };
     const hasChildren = item.children && item.children.length > 0;
     const isLeafNode = !hasChildren;
-    const handlePassedChange = () => {
-        setPassed(!passed);
-        if (!passed) {
-            setNotPassed(false);
-        }
-    };
 
-    const handleNotPassedChange = () => {
-        setNotPassed(!notPassed);
-        if (!notPassed) {
-            setPassed(false);
-        }
-    };
     return (
         <>
             <ListItemButton onClick={handleClick}>
@@ -38,11 +26,11 @@ const ListItem: React.FC<ListItemProps> = ({item}) => {
                 {isLeafNode && (
                     <>
                         <FormControlLabel
-                            control={<Checkbox checked={passed} onChange={handlePassedChange} />}
+                            control={<Checkbox checked={passed} />}
                             label="Прошел"
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={notPassed} onChange={handleNotPassedChange} />}
+                            control={<Checkbox checked={notPassed} />}
                             label="Нет"
                         />
                     </>

@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {List, ListSubheader} from "@mui/material";
 import ListItem from "./ListItem/ListItem";
 import axios from "axios";
-import {DataItem} from "../UserTests";
 export interface TreeNode {
     text: string;
-    passed: boolean;
+    passed: string;
     children?: TreeNode[];
 }
 const Tests:React.FC<{ stage: number }> = ({ stage }) => {

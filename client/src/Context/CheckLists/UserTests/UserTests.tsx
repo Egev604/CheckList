@@ -1,35 +1,47 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import {ListItemButton} from "@mui/material";
+import {Button} from "@mui/material";
 import Passage from "./Passage/Passage";
-export interface DataItem {
+import ModalComponent from "./CreateNewPassage/ModalComponent";
+import CreateNewPassage from "./CreateNewPassage/CreateNewPassage";
+export interface PassageInterface {
     id: number;
     userId?: number;
     modelDevice?: string;
     versionOs?: string;
-    stageId:number;
 }
 const UserTests = () => {
 
-    const [data, setData] = useState<DataItem[]>([]);
-
+    const [data, setData] = useState<PassageInterface[]>([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const axiosData = async () => {
         try {
             const response = await axios.get('http://localhost:4000/api/passage/');
-            const result:DataItem[] = await response.data;
+            const result:PassageInterface[] = await response.data;
             setData(result);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
+    };
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
     };
     useEffect(() => {
         axiosData();
     }, []);
     return (
         <>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <h1>Ваши тесты:</h1>
+            <Button variant="contained" onClick={openModal}>Создать</Button>
+            </div>
+            <ModalComponent isOpen={isModalOpen} closeModal={closeModal}>
+                <CreateNewPassage />
+            </ModalComponent>
             {data.map((item, index) => (
                 <div key={item.id} style={{ display: 'flex', alignItems: 'center' }}>
                     <Passage item={item} index={index} />
