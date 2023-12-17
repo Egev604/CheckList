@@ -1,0 +1,15 @@
+.root {
+    display: flex;
+    flex-direction: column;
+}
+.inputLabel {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 30px;
+}
+.inputField{
+    width: 100%;
+}
+.but {
+    margin: 20px;
+}

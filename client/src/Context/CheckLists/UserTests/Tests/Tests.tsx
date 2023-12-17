@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {List, ListSubheader} from "@mui/material";
 import ListItem from "./ListItem/ListItem";
 import axios from "axios";
-import {DataItem} from "../UserTests";
 export interface TreeNode {
     name: string;
     passed?: string;
