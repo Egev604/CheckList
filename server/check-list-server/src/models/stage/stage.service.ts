@@ -4,6 +4,19 @@ import {StageDto} from "../../dto/stage.dto";
 import {UserService} from "../user/user.service";
 import {PassageService} from "../passage/passage.service";
 
+
+interface IStage {
+    id: number,
+    name: string;
+    status?: string;
+    parentId?: number;
+    passageId: number;
+}
+interface IStageWithChildren {
+    name: string,
+    status: string,
+    children?: IStageWithChildren[];
+}
 @Injectable()
 export class StageService {
     constructor(private readonly prisma: PrismaService, private readonly userService: UserService,
@@ -39,9 +52,43 @@ export class StageService {
             data.error = 'Stages does not exist on current passage and current user'
         }
 
-        data.stages = stages;
+        data.stages = this.sortStages(stages);
 
         return data;
+    }
+
+    async sortStages(stages: IStage[]) {
+        const stagesWithoutChildren = await this.prisma.stage.findMany({
+            where: {
+                parentId: null
+            }
+        });
+
+        const sortedStages: IStageWithChildren[] = stagesWithoutChildren.map((stageWithoutChildren) => {
+            const childrenStages = stages.filter((stage) => stage.parentId === stageWithoutChildren.id);
+            const sortedChildren: IStageWithChildren[] = this.sortChildren(childrenStages, stages);
+
+            return {
+                name: stageWithoutChildren.name,
+                status: stageWithoutChildren.status,
+                children: sortedChildren
+            };
+        });
+
+        return sortedStages;
+    }
+
+    sortChildren(children: IStage[], allStages: IStage[]): IStageWithChildren[] {
+        return children.map((childStage) => {
+            const nestedChildren = allStages.filter((nestedChildStage) => nestedChildStage.parentId === childStage.id);
+            const sortedNestedChildren: IStageWithChildren[] = this.sortChildren(nestedChildren, allStages);
+
+            return {
+                name: childStage.name,
+                status: childStage.status,
+                children: sortedNestedChildren
+            };
+        });
     }
 
     async create(stage: StageDto) {
@@ -100,7 +147,7 @@ export class StageService {
             data: {
                 name: stage.name,
                 status: stage.status,
-                child: stage.child,
+                parentId: stage.parentId,
             }
         })
     }

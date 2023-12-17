@@ -25,7 +25,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
-], StageDto.prototype, "child", void 0);
+], StageDto.prototype, "parentId", void 0);
 __decorate([
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)

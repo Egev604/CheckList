@@ -6,7 +6,7 @@ export class StageDto {
     @IsString()
     status?: string;
     @IsInt()
-    child?: number;
+    parentId?: number;
     @IsInt()
     passageId: number;
 }

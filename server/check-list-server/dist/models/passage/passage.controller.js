@@ -21,14 +21,14 @@ let PassageController = class PassageController {
         this.passageService = passageService;
     }
     async getAllByUserId(userId, res) {
-        const passages = await this.passageService
+        const data = await this.passageService
             .getAllByUserId(userId);
-        res.json({ passages: passages });
+        res.json({ data: data });
     }
     async getOneByUserId(userId, id, res) {
-        const foundPassage = await this.passageService
+        const data = await this.passageService
             .getOneByUserId(userId, id);
-        res.json({ passage: foundPassage });
+        res.json({ data: data });
     }
     async create(passage, res) {
         const newPassage = await this.passageService

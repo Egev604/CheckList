@@ -30,9 +30,9 @@ model Stage {
   id        Int     @id @default(autoincrement())
   name      String
   status    String?
-  child     Int?
+  parentId  Int?
   passageId Int
   passage   Passage @relation(fields: [passageId], references: [id])
-  parent    Stage?  @relation("ChildToParent", fields: [child], references: [id])
+  parent    Stage?  @relation("ChildToParent", fields: [parentId], references: [id])
   children  Stage[] @relation("ChildToParent")
 }

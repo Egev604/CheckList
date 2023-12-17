@@ -1,6 +1,6 @@
 export declare class StageDto {
     name: string;
     status?: string;
-    child?: number;
+    parentId?: number;
     passageId: number;
 }
